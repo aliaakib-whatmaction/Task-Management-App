@@ -12,8 +12,4 @@ js console.log("Hello");
 
 
 ![Alt Text](image.png)
-
-- Item 1
-- Item 2
-
 > This is a quote

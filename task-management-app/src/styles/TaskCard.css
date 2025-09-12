@@ -105,3 +105,39 @@
 .task-actions button:active {
   transform: translateY(0);
 }
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.search-bar button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+/* Search Result */
+.search-result {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
