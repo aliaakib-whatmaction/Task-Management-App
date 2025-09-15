@@ -1,0 +1,72 @@
+/* Container for the form */
+.task-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.task-form h4 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 20px;
+}
+
+/* Input fields and textarea */
+.task-form input,
+.task-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.task-form input:focus,
+.task-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Textarea resize off */
+.task-form textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* Submit button */
+.task-form button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.task-form button:hover {
+  background: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .task-form {
+    padding: 15px;
+  }
+
+  .task-form h4 {
+    font-size: 18px;
+  }
+}

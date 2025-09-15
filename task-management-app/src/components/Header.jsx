@@ -16,6 +16,9 @@ const Header = () => {
             <li>
               <a href="/">Tasks</a>
             </li>
+            <li>
+              <a href="/add-task">Add Task</a>
+            </li>
           </ul>
         </div>
       </nav>
