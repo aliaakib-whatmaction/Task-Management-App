@@ -199,3 +199,65 @@
     font-size: 1.2rem;
   }
 }
+/* Align Delete button and arrow on the right side */
+.task-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Delete Button Styling */
+.delete-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.delete-btn:hover {
+  background-color: #e60000;
+}
+
+/* Arrow Styling */
+.task-arrow {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 0 6px;
+  color: #333;
+}
+
+.task-arrow:hover {
+  color: #000;
+}
+
+.no-tasks-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.sort-dropdown {
+  padding: 8px 12px;
+  margin-left: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.sort-dropdown:hover {
+  border-color: #007bff;
+}

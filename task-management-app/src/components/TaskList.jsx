@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "../styles/TaskCard.css";
 
-const TaskList = ({ tasks }) => {
-  const [openTaskId, setOpenTaskId] = useState(null); // Track which task is expanded
+const TaskList = ({ tasks, onDelete }) => {
+  const [openTaskId, setOpenTaskId] = useState(null);
 
   const toggleTask = (taskId) => {
-    setOpenTaskId(openTaskId === taskId ? null : taskId); // Close if same task clicked
+    setOpenTaskId(openTaskId === taskId ? null : taskId);
   };
 
   return (
@@ -17,19 +17,36 @@ const TaskList = ({ tasks }) => {
             className={`task-item ${openTaskId === task.id ? "expanded" : ""}`}
           >
             {/* Task Header */}
-            <div className="task-header" onClick={() => toggleTask(task.id)}>
-              <div className="task-title">
+            <div className="task-header">
+              {/* Task Title */}
+              <div className="task-title" onClick={() => toggleTask(task.id)}>
                 <span className="task-id">{task.id}.</span>
                 <span className="task-name">{task.name}</span>
               </div>
 
-              {/* Arrow icon changes dynamically */}
-              <span className="task-arrow">
-                {openTaskId === task.id ? "˄" : "˅"}
-              </span>
+              <div className="task-actions-right">
+                {/* Delete Button */}
+                <button
+                  className="delete-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent opening dropdown
+                    onDelete(task.id);
+                  }}
+                >
+                  Delete
+                </button>
+
+                {/* Arrow icon */}
+                <span
+                  className="task-arrow"
+                  onClick={() => toggleTask(task.id)}
+                >
+                  {openTaskId === task.id ? "˄" : "˅"}
+                </span>
+              </div>
             </div>
 
-            {/* Description - will expand smoothly */}
+            {/* Task Description */}
             <div
               className={`task-description-wrapper ${
                 openTaskId === task.id ? "open" : ""
