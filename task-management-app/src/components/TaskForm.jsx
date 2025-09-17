@@ -8,9 +8,8 @@ const TaskForm = ({ tasks, setTasks }) => {
     description: "",
   });
 
-  const navigate = useNavigate(); // For redirecting after submit
+  const navigate = useNavigate();
 
-  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -19,7 +18,6 @@ const TaskForm = ({ tasks, setTasks }) => {
     });
   };
 
-  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -28,22 +26,16 @@ const TaskForm = ({ tasks, setTasks }) => {
       return;
     }
 
-    // Create a new task
     const newTask = {
       id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 1,
       name: formData.title,
       description: formData.description,
     };
 
-    // Add new task to state
     setTasks([...tasks, newTask]);
 
     alert("Task Added Successfully!");
-
-    // Clear form
     setFormData({ title: "", description: "" });
-
-    // Navigate back to home (task list page)
     navigate("/");
   };
 

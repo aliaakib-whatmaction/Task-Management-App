@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/TaskCard.css";
 import { findMax, findMin, binarySearchById } from "../utils/arrayUtils";
 import TaskList from "./TaskList";
@@ -8,15 +8,22 @@ const TaskCard = ({ tasks, setTasks }) => {
   const [searchResult, setSearchResult] = useState(null);
   const [searchTime, setSearchTime] = useState(null);
   const [searchType, setSearchType] = useState("");
-  const [sortOrder, setSortOrder] = useState(""); // ✅ FIXED
+  const [sortOrder, setSortOrder] = useState("");
+  const [sortAlgorithm, setSortAlgorithm] = useState("");
 
-  // Bubble Sort Function
+  /* 📝 Save to LocalStorage whenever tasks change */
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  /* ---------------- Sorting Algorithms ---------------- */
+
   const bubbleSort = (arr, order) => {
     const sortedTasks = [...arr];
     let n = sortedTasks.length;
 
     for (let i = 0; i < n - 1; i++) {
-      for (let j = 0; j < n - i - 1; j++) { // ✅ FIXED
+      for (let j = 0; j < n - i - 1; j++) {
         const condition =
           order === "asc"
             ? sortedTasks[j].id > sortedTasks[j + 1].id
@@ -33,23 +40,69 @@ const TaskCard = ({ tasks, setTasks }) => {
     return sortedTasks;
   };
 
-  // Sort Handler
-  const handleSortChange = (e) => { // ✅ FIXED spelling
+  const selectionSort = (arr, order) => {
+    const sortedTasks = [...arr];
+    let n = sortedTasks.length;
+
+    for (let i = 0; i < n - 1; i++) {
+      let extremeIndex = i;
+      for (let j = i + 1; j < n; j++) {
+        const condition =
+          order === "asc"
+            ? sortedTasks[j].id < sortedTasks[extremeIndex].id
+            : sortedTasks[j].id > sortedTasks[extremeIndex].id;
+
+        if (condition) extremeIndex = j;
+      }
+      if (extremeIndex !== i) {
+        [sortedTasks[i], sortedTasks[extremeIndex]] = [
+          sortedTasks[extremeIndex],
+          sortedTasks[i],
+        ];
+      }
+    }
+    return sortedTasks;
+  };
+
+  const nativeSort = (arr, order) => {
+    return [...arr].sort((a, b) =>
+      order === "asc" ? a.id - b.id : b.id - a.id
+    );
+  };
+
+  /* ---------------- Sort Handler ---------------- */
+  const handleSortChange = (e) => {
     const order = e.target.value;
     setSortOrder(order);
+
+    if (!sortAlgorithm) {
+      alert("Please select a sorting algorithm first!");
+      return;
+    }
+
     if (order) {
-      const sorted = bubbleSort(tasks, order);
-      setTasks(sorted);
+      let sorted = [];
+
+      if (sortAlgorithm === "bubble") {
+        sorted = bubbleSort(tasks, order);
+      } else if (sortAlgorithm === "selection") {
+        sorted = selectionSort(tasks, order);
+      } else if (sortAlgorithm === "native") {
+        sorted = nativeSort(tasks, order);
+      }
+
+      setTasks(sorted); // ✅ state updated
     }
   };
 
-  // Delete Task by ID
-  const handleDelete = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    setTasks(updatedTasks);
-  };
+  /* ---------------- Delete Task ---------------- */
+const handleDelete = (id) => {
+  const updatedTasks = tasks.filter((task) => task.id !== id);
+  setTasks(updatedTasks); // ✅ Auto-saved to localStorage
+};
 
-  // Reverse tasks
+
+  /* ---------------- Reverse Tasks ---------------- */
   const handleReverse = () => {
     if (!tasks || tasks.length === 0) {
       return alert("There is no Task!!");
@@ -57,17 +110,16 @@ const TaskCard = ({ tasks, setTasks }) => {
     setTasks([...tasks].reverse());
   };
 
-  // Find Max ID
+  /* ---------------- Find Max & Min ---------------- */
   const handleFindMax = () => {
     alert(`Max Task ID: ${findMax(tasks)}`);
   };
 
-  // Find Min ID
   const handleFindMin = () => {
     alert(`Min Task ID: ${findMin(tasks)}`);
   };
 
-  // Linear Search
+  /* ---------------- Linear Search ---------------- */
   const handleLinearSearch = () => {
     if (!searchQuery.trim()) {
       alert("Please enter a task name or ID to search");
@@ -89,7 +141,7 @@ const TaskCard = ({ tasks, setTasks }) => {
     if (!foundTask) alert("Task not found!");
   };
 
-  // Binary Search
+  /* ---------------- Binary Search ---------------- */
   const handleBinarySearch = () => {
     if (!searchQuery.trim() || isNaN(searchQuery)) {
       alert("Please enter a valid Task ID for Binary Search");
@@ -112,7 +164,7 @@ const TaskCard = ({ tasks, setTasks }) => {
     <section className="task-section">
       <h2 className="task-heading">Tasks</h2>
 
-      {/* Search Bar + Sort Dropdown */}
+      {/* Search Bar */}
       <div className="search-bar">
         <input
           type="search"
@@ -122,14 +174,38 @@ const TaskCard = ({ tasks, setTasks }) => {
         />
         <button onClick={handleLinearSearch}>Linear Search</button>
         <button onClick={handleBinarySearch}>Binary Search (ID)</button>
+      </div>
 
-        {/* Bubble Sort Dropdown */}
+      {/* Time Result */}
+      {searchTime && (
+        <div className="time-results">
+          <p>
+            ⏱ {searchType === "linear" ? "Linear" : "Binary"} Search Time:{" "}
+            <strong>{searchTime} ms</strong>
+          </p>
+        </div>
+      )}
+
+      {/* Sorting Algorithm Dropdown */}
+      <div className="sorting-controls">
+        <select
+          value={sortAlgorithm}
+          onChange={(e) => setSortAlgorithm(e.target.value)}
+          className="sort-dropdown"
+        >
+          <option value="">Select Sorting Algorithm</option>
+          <option value="bubble">Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="native">Native JS Sort</option>
+        </select>
+
+        {/* Ascending / Descending */}
         <select
           value={sortOrder}
           onChange={handleSortChange}
           className="sort-dropdown"
         >
-          <option value="">Sort by (Bubble Sort)</option>
+          <option value="">Sort Order</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>

@@ -16,27 +16,23 @@ const TaskList = ({ tasks, onDelete }) => {
             key={task.id}
             className={`task-item ${openTaskId === task.id ? "expanded" : ""}`}
           >
-            {/* Task Header */}
             <div className="task-header">
-              {/* Task Title */}
               <div className="task-title" onClick={() => toggleTask(task.id)}>
                 <span className="task-id">{task.id}.</span>
                 <span className="task-name">{task.name}</span>
               </div>
 
               <div className="task-actions-right">
-                {/* Delete Button */}
                 <button
                   className="delete-btn"
                   onClick={(e) => {
-                    e.stopPropagation(); // prevent opening dropdown
+                    e.stopPropagation();
                     onDelete(task.id);
                   }}
                 >
                   Delete
                 </button>
 
-                {/* Arrow icon */}
                 <span
                   className="task-arrow"
                   onClick={() => toggleTask(task.id)}
@@ -46,7 +42,6 @@ const TaskList = ({ tasks, onDelete }) => {
               </div>
             </div>
 
-            {/* Task Description */}
             <div
               className={`task-description-wrapper ${
                 openTaskId === task.id ? "open" : ""
